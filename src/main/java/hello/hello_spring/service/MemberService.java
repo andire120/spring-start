@@ -21,9 +21,13 @@ public class MemberService {
 
     private void validateDuplicateMember(Member member) {
         memberRepository.findByName(member.getName())
-                .ifPresent(member m -> {
-                    throw new IllegalAccessException("이미 존재하는 회원입니다.");
-                });
+                .ifPresent(m -> {
+                    try {
+                        throw new IllegalAccessException("이미 존재하는 회원입니다.");
+                    } catch (IllegalAccessException e) {
+                        throw new RuntimeException(e);
+                    }
+                }); //왜이래 이거 원래는 throw new IllegalAccessException("이미 존재하는 회원입니다.");만 있어는데 고쳐짐/
     }
 
     //전체 회원 조회
