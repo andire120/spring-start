@@ -2,10 +2,13 @@ package hello.hello_spring.service;
 
 import hello.hello_spring.domain.Member;
 import hello.hello_spring.repository.MemberRepository;
-import hello.hello_spring.repository.MemoryMemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 
 public class MemberService {
     private final MemberRepository memberRepository;
@@ -18,7 +21,6 @@ public class MemberService {
     public Long join(Member member) {
         //같은 이름이 있는 중복 회원X
         validateDuplicateMember(member); //단축키 crtl + alt + shift + T 중복회원검증
-
         memberRepository.save(member);
         return member.getId();
     }
@@ -26,15 +28,11 @@ public class MemberService {
     private void validateDuplicateMember(Member member) {
         memberRepository.findByName(member.getName())
                 .ifPresent(m -> {
-                    try {
-                        throw new IllegalAccessException("이미 존재하는 회원입니다");
-                    } catch (IllegalAccessException e) {
-                        throw new RuntimeException(e);
-                    }
-                }); //왜이래 이거 원래는 throw new IllegalAccessException("이미 존재하는 회원입니다.");만 있어는데 고쳐짐/
+                    throw new IllegalStateException("이미 존재하는 회원입니다");
+                });
+
     }
 
-    //전체 회원 조회
     public List<Member> findMembers() {
         return memberRepository.findAll();
     }
