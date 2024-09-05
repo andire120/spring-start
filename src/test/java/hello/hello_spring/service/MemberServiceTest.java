@@ -54,7 +54,7 @@ class MemberServiceTest {
 
         //then
         IllegalStateException e = assertThrows(IllegalStateException.class, () -> {
-            memberService.join(member2);  //여기서 오류 발생 뭔 오류인지 모르겠음.
+            memberService.join(member2);
         });
         assertThat(e.getMessage()).isEqualTo("이미 존재하는 회원입니다");
 /*
