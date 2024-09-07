@@ -1,7 +1,6 @@
 package hello.hello_spring.repository;
 
 import hello.hello_spring.domain.Member;
-import org.springframework.stereotype.Repository;
 
 import java.util.Map;
 import java.util.Optional;
@@ -20,14 +19,15 @@ public class MemoryMemberRepository implements MemberRepository {
         return member;
     }
 
-    @Override
-    public Optional<Member> finById(Long id) {
-        return Optional.empty();
-    }
 
     @Override
     public Optional<Member> findById(Long id) {
         return Optional.ofNullable((Member) store.get(id));
+    }
+
+    @Override
+    public Optional<Object> findByName(Objects name) {
+        return Optional.empty();
     }
 
     @Override
@@ -42,10 +42,6 @@ public class MemoryMemberRepository implements MemberRepository {
         return new ArrayList<>(store.values());
     }
 
-    @Override
-    public void cleatStore() {
-
-    }
 
     void clearStore() {
         store.clear();
